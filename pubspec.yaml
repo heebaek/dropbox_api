@@ -1,6 +1,6 @@
 name: dropbox_api
 description: A Dart client for the Dropbox API.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/bobaman/dropbox_api_client
 
 environment:

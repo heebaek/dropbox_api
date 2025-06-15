@@ -1,8 +1,8 @@
-import 'dropbox_metadata.dart';
+import 'dropbox_file.dart';
 
 /// Dropbox 폴더 내용을 나타내는 클래스입니다.
 class DropboxFolderContents {
-  final List<DropboxMetadata> entries;
+  final List<DropboxFile> entries;
   final String? cursor;
   final bool hasMore;
 
@@ -16,7 +16,7 @@ class DropboxFolderContents {
     return DropboxFolderContents(
       entries:
           (json['entries'] as List)
-              .map((e) => DropboxMetadata.fromJson(e as Map<String, dynamic>))
+              .map((e) => DropboxFile.fromJson(e as Map<String, dynamic>))
               .toList(),
       cursor: json['cursor'] as String?,
       hasMore: json['has_more'] as bool,
