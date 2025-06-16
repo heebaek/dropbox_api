@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dropbox_api/dropbox_api.dart';
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _counter = 0;
 
-  Future<List<dynamic>> listFiles(
+  Future<List<DropboxFile>> listFiles(
     DropboxApi dropbox, {
     int pageSize = 1,
   }) async {
@@ -128,10 +129,25 @@ class _MyHomePageState extends State<MyHomePage> {
     var client = await account.createClient(token);
 
     DropboxApi drive = DropboxRestApi(client);
+
+    /*
     var list = await listFiles(drive);
     for (var item in list) {
       debugPrint(item.name);
+      if (item.isFile) {
+        var stream = await drive.download(item.pathDisplay);
+        var size = await stream.length;
+        debugPrint("${item.name} =  $size");
+        return;
+      }
     }
+    */
+
+    var uploaded = await drive.upload(
+      "/test.txt",
+      Stream.value(utf8.encode("test2")),
+    );
+    debugPrint(uploaded.name);
 
     setState(() {
       // This call to setState tells the Flutter framework that something has

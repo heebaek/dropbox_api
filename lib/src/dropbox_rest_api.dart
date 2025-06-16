@@ -14,13 +14,13 @@ class DropboxRestApi implements DropboxApi {
 
   @override
   Future<Stream<List<int>>> download(String path) async {
-    final response = await client.post(
+    final response = await client.postStream(
       'https://content.dropboxapi.com/2/files/download',
       headers: {
         'Dropbox-API-Arg': jsonEncode({'path': path}),
       },
     );
-    return response.bodyStream;
+    return response;
   }
 
   @override

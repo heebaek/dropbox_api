@@ -1,6 +1,6 @@
 /// Dropbox 파일/폴더 메타데이터를 나타내는 클래스입니다.
 class DropboxFile {
-  final String tag;
+  final String? tag;
   final String name;
   final String pathLower;
   final String pathDisplay;
@@ -13,7 +13,7 @@ class DropboxFile {
   final String? contentHash;
 
   DropboxFile({
-    required this.tag,
+    this.tag,
     required this.name,
     required this.pathLower,
     required this.pathDisplay,
@@ -28,7 +28,7 @@ class DropboxFile {
 
   factory DropboxFile.fromJson(Map<String, dynamic> json) {
     return DropboxFile(
-      tag: json['.tag'] as String,
+      tag: json['.tag'] as String?,
       name: json['name'] as String,
       pathLower: json['path_lower'] as String,
       pathDisplay: json['path_display'] as String,
@@ -48,6 +48,7 @@ class DropboxFile {
     );
   }
 
-  bool get isFile => tag == 'file';
+  /// tag가 null이면 파일로 가정합니다.
+  bool get isFile => tag == null || tag == 'file';
   bool get isFolder => tag == 'folder';
 }
