@@ -26,16 +26,20 @@ class DropboxRestApi implements DropboxApi {
   @override
   Future<DropboxFolderContents> listFolder(
     String path, {
-    String? cursor,
     int limit = 2000,
   }) async {
     final response = await client.postJson(
       '$_baseUrl/files/list_folder',
-      body: OAuth2JsonBody({
-        'path': path,
-        if (cursor != null) 'cursor': cursor,
-        'limit': limit,
-      }),
+      body: OAuth2JsonBody({'path': path, 'limit': limit}),
+    );
+    return DropboxFolderContents.fromJson(response);
+  }
+
+  @override
+  Future<DropboxFolderContents> listFolderContinue(String cursor) async {
+    final response = await client.postJson(
+      '$_baseUrl/files/list_folder/continue',
+      body: OAuth2JsonBody({'cursor': cursor}),
     );
     return DropboxFolderContents.fromJson(response);
   }

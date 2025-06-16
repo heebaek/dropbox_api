@@ -12,11 +12,12 @@ abstract class DropboxApi {
   /// 폴더 내용을 조회합니다.
   ///
   /// Returns a [DropboxFolderContents] containing the folder contents and a cursor for pagination.
-  Future<DropboxFolderContents> listFolder(
-    String path, {
-    String? cursor,
-    int limit,
-  });
+  Future<DropboxFolderContents> listFolder(String path, {int limit});
+
+  /// 이전 list_folder 호출의 결과를 계속 가져옵니다.
+  ///
+  /// Returns a [DropboxFolderContents] containing the folder contents and a cursor for pagination.
+  Future<DropboxFolderContents> listFolderContinue(String cursor);
 
   /// 폴더를 생성합니다.
   ///

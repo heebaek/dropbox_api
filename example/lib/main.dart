@@ -103,23 +103,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<dynamic>> listFiles(
     DropboxApi dropbox, {
-    int pageSize = 1000,
-    String? nextPageToken,
+    int pageSize = 1,
   }) async {
-    List<dynamic> items = [];
-    do {
-      var response = await dropbox.listFolder(
-        "",
-        limit: pageSize,
-        cursor: nextPageToken,
-      );
+    List<DropboxFile> items = [];
+    var response = await dropbox.listFolder("", limit: pageSize);
+    items.addAll(response.entries);
 
+    while (response.hasMore) {
+      response = await dropbox.listFolderContinue(response.cursor!);
       items.addAll(response.entries);
+    }
 
-      if (items.isNotEmpty) break;
-
-      nextPageToken = response.cursor;
-    } while (nextPageToken != null);
     return items;
   }
 
