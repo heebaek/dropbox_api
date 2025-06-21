@@ -14,13 +14,10 @@ class DropboxRestApi implements DropboxApi {
 
   @override
   Future<Stream<List<int>>> download(String path) async {
-    final response = await client.postStream(
-      'https://content.dropboxapi.com/2/files/download',
-      headers: {
-        'Dropbox-API-Arg': jsonEncode({'path': path}),
-      },
-    );
-    return response;
+    var input = jsonEncode({'path': path});
+    var arg = Uri.encodeQueryComponent(input);
+    var url = 'https://content.dropboxapi.com/2/files/download?arg=$arg';
+    return client.postStream(url);
   }
 
   @override
@@ -73,17 +70,19 @@ class DropboxRestApi implements DropboxApi {
       contentType: 'application/octet-stream',
     );
 
+    var input = jsonEncode({
+      'path': path,
+      'mode': mode,
+      'autorename': autorename,
+    });
+
+    var arg = Uri.encodeQueryComponent(input);
+    var url = 'https://content.dropboxapi.com/2/files/upload?arg=$arg';
+
     final response = await client.post(
-      'https://content.dropboxapi.com/2/files/upload',
+      url,
       body: fileBody,
-      headers: {
-        'Dropbox-API-Arg': jsonEncode({
-          'path': path,
-          'mode': mode,
-          'autorename': autorename,
-        }),
-        'Content-Type': 'application/octet-stream',
-      },
+      headers: {'Content-Type': 'application/octet-stream'},
     );
     final bytes = await response.readAsBytes();
     return DropboxFile.fromJson(jsonDecode(utf8.decode(bytes)));

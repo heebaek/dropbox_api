@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5
+
+* Fixed download/upload method to use 'arg' URL arguments instead of headers
+  
 ## 0.0.4
 
 * Made `.tag` field nullable in `DropboxFile` class

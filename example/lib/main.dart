@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
     */
 
     var uploaded = await drive.upload(
-      "/test.txt",
+      "/ㄱㄴㄷ.txt",
       Stream.value(utf8.encode("test2")),
     );
     debugPrint(uploaded.name);
