@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.6
+
+* Improved upload efficiency
+  - Avoided unnecessary memory copy when uploading files
+  - Used chunk folding and Stream.fromIterable for better memory usage
+  
 ## 0.0.5
 
 * Fixed download/upload method to use 'arg' URL arguments instead of headers

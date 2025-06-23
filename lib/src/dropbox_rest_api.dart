@@ -57,16 +57,13 @@ class DropboxRestApi implements DropboxApi {
     String mode = 'add',
     bool autorename = true,
   }) async {
-    // Stream을 List<int>로 변환
+    // Stream을 List<List<int>>로 변환
     final chunks = await dataStream.toList();
-    final fileContent = <int>[];
-    for (final chunk in chunks) {
-      fileContent.addAll(chunk);
-    }
+    final totalLength = chunks.fold<int>(0, (sum, chunk) => sum + chunk.length);
 
     final fileBody = OAuth2FileBody(
-      Stream.value(fileContent),
-      contentLength: fileContent.length,
+      Stream.fromIterable(chunks),
+      contentLength: totalLength,
       contentType: 'application/octet-stream',
     );
 
@@ -79,13 +76,12 @@ class DropboxRestApi implements DropboxApi {
     var arg = Uri.encodeQueryComponent(input);
     var url = 'https://content.dropboxapi.com/2/files/upload?arg=$arg';
 
-    final response = await client.post(
+    final response = await client.postJson(
       url,
       body: fileBody,
       headers: {'Content-Type': 'application/octet-stream'},
     );
-    final bytes = await response.readAsBytes();
-    return DropboxFile.fromJson(jsonDecode(utf8.decode(bytes)));
+    return DropboxFile.fromJson(response);
   }
 
   @override

@@ -1,6 +1,6 @@
 name: dropbox_api
 description: A Dart client for the Dropbox API that provides easy access to Dropbox's file operations including upload, download, copy, move, and more.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/bobaman/dropbox_api_client
 repository: https://github.com/bobaman/dropbox_api_client
 issue_tracker: https://github.com/bobaman/dropbox_api_client/issues
@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  oauth2restclient: ^0.0.7
+  oauth2restclient: ^0.0.8
 
 dev_dependencies:
   flutter_test:
